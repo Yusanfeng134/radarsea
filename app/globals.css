@@ -1,0 +1,580 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Radarsea SaaS 2.0 palette — pure black + restrained fluorescent accents */
+    --bg: #050505;
+    --bg-subtle: #0f0f0f;
+    --ink: rgba(255, 255, 255, 0.949);
+    --ink-muted: rgba(255, 255, 255, 0.722);
+    --ink-faint: rgba(255, 255, 255, 0.4);
+    --line: rgba(255, 255, 255, 0.045);
+    --line-strong: rgba(255, 255, 255, 0.16);
+    --brand: #0ea5e9;
+    --brand-bright: #00e5ff; /* electric cyan — lock state, hover, sweep */
+    --brand-deep: #0369a1;
+    --accent: #10b981;
+    --accent-bright: #00ff66; /* fluorescent green — anomaly, Live, lock */
+    --highlight: #7dd3fc;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    background-color: var(--bg);
+  }
+
+  body {
+    @apply bg-bg text-ink font-sans;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: rgba(0, 229, 255, 0.28);
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--brand-bright);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site px-5 md:px-8;
+  }
+
+  .section-y {
+    @apply py-[72px] md:py-[120px] lg:py-[140px];
+  }
+
+  .hairline {
+    @apply border-line;
+  }
+
+  /* Display tracking for big hero text */
+  .text-display {
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .mask-fade-bottom {
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+
+  /* Radarsea Bento data lattice with center fade */
+  .bg-data-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(
+      ellipse 95% 80% at 50% 40%,
+      #000 50%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 95% 80% at 50% 40%,
+      #000 50%,
+      transparent 100%
+    );
+  }
+
+  .bg-data-grid-tight {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .text-glow-cyan {
+    text-shadow: 0 0 24px rgba(34, 211, 238, 0.35);
+  }
+}
+
+/* ─── Bento frame: 1px micro-glow border + soft glass surface ─────────────── */
+.bento-frame {
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0%, rgba(255, 255, 255, 0.005) 100%);
+  backdrop-filter: blur(20px);
+}
+.bento-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.06) 22%,
+    rgba(255, 255, 255, 0.02) 55%,
+    rgba(34, 211, 238, 0.18) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Primary CTA inner glow on hover ─────────────────────────────────────── */
+.cta-inner-glow {
+  position: relative;
+  isolation: isolate;
+}
+.cta-inner-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.32) 0%,
+    rgba(34, 211, 238, 0.18) 35%,
+    rgba(34, 211, 238, 0) 70%
+  );
+  opacity: 0;
+  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+.cta-inner-glow:hover::before,
+.cta-inner-glow:focus-visible::before {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-inner-glow::before {
+    transition: none;
+  }
+}
+
+/* ─── Trust bar infinite marquee ──────────────────────────────────────────── */
+.trust-marquee {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+}
+
+.trust-marquee__track {
+  animation: trust-marquee 38s linear infinite;
+  will-change: transform;
+}
+
+.trust-marquee:hover .trust-marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes trust-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* Track is duplicated 2× — translating by -50% loops seamlessly */
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trust-marquee__track {
+    /* Slow far down so all brands remain readable without rapid motion */
+    animation-duration: 110s;
+  }
+}
+
+/* ─── Detection Hero scan UI (Product Suite) ──────────────────────────────── */
+.detection-hero {
+  --scan-duration: 2.8s;
+}
+.detection-hero:hover {
+  /* Scan accelerates on hero hover, per the brief */
+  --scan-duration: 1.4s;
+}
+
+.detection-scan-line {
+  height: 2px;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 229, 255, 0) 5%,
+    #00e5ff 50%,
+    rgba(0, 229, 255, 0) 95%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 18px 2px rgba(0, 229, 255, 0.55),
+    0 0 32px rgba(0, 229, 255, 0.25);
+  animation: detection-scan-bob var(--scan-duration)
+    cubic-bezier(0.4, 0, 0.4, 1) infinite;
+}
+
+@keyframes detection-scan-bob {
+  0% {
+    top: 0;
+  }
+  50% {
+    top: calc(100% - 2px);
+  }
+  100% {
+    top: 0;
+  }
+}
+
+/* Sequenced result badges share --scan-duration so they re-time with the scan */
+.detection-result-badge {
+  opacity: 0;
+}
+.detection-result-badge--1 {
+  animation: detection-badge-1 var(--scan-duration)
+    cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+.detection-result-badge--2 {
+  animation: detection-badge-2 var(--scan-duration)
+    cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+.detection-result-badge--3 {
+  animation: detection-badge-3 var(--scan-duration)
+    cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes detection-badge-1 {
+  0%,
+  18% {
+    opacity: 0;
+    transform: translateX(8px) scale(0.92);
+  }
+  24% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  92% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(8px) scale(0.92);
+  }
+}
+@keyframes detection-badge-2 {
+  0%,
+  38% {
+    opacity: 0;
+    transform: translateX(8px) scale(0.92);
+  }
+  44% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  92% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(8px) scale(0.92);
+  }
+}
+@keyframes detection-badge-3 {
+  0%,
+  62% {
+    opacity: 0;
+    transform: translateX(8px) scale(0.92);
+  }
+  68% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  92% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(8px) scale(0.92);
+  }
+}
+
+.code-stream-track {
+  animation: code-stream-scroll 18s linear infinite;
+  will-change: transform;
+}
+@keyframes code-stream-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    /* Track is duplicated 2× — translating by -50% loops seamlessly */
+    transform: translateY(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .detection-scan-line,
+  .detection-result-badge--1,
+  .detection-result-badge--2,
+  .detection-result-badge--3,
+  .code-stream-track {
+    animation: none;
+  }
+  .detection-result-badge {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ─── Custom radar reticle cursor ─────────────────────────────────────────── */
+body.custom-cursor-active,
+body.custom-cursor-active * {
+  cursor: none !important;
+}
+
+.custom-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 9999;
+  width: 0;
+  height: 0;
+  transition: opacity 0.18s ease;
+  /* GPU lift */
+  will-change: transform;
+}
+
+/* — Spotlight (lights up underlying grid) — */
+.custom-cursor__spotlight {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  left: -80px;
+  top: -80px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 30%,
+    transparent 70%
+  );
+  transition: opacity 0.22s ease, background 0.22s ease;
+}
+.custom-cursor--lock .custom-cursor__spotlight {
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 102, 0.10) 0%,
+    rgba(0, 255, 102, 0.03) 35%,
+    transparent 70%
+  );
+}
+.custom-cursor--text .custom-cursor__spotlight {
+  opacity: 0;
+}
+
+/* — Breathing halo — */
+.custom-cursor__halo {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  left: -14px;
+  top: -14px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  animation: cursor-halo 2.4s ease-in-out infinite;
+  transition: border-color 0.22s ease, opacity 0.22s ease;
+}
+.custom-cursor--lock .custom-cursor__halo {
+  border-color: rgba(0, 255, 102, 0.4);
+  animation-duration: 1.2s;
+}
+.custom-cursor--text .custom-cursor__halo {
+  opacity: 0;
+}
+@keyframes cursor-halo {
+  0%,
+  100% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.15;
+  }
+}
+
+/* — Crosshair (4 segments leaving 2px gap at center) — */
+.custom-cursor__cross {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.18s ease;
+}
+/* Difference blend keeps the white crosshair visible on white surfaces
+   (e.g. the primary CTA). In lock state we override below to keep the
+   fluorescent green vivid. */
+.custom-cursor--default .custom-cursor__cross,
+.custom-cursor--text .custom-cursor__beam {
+  mix-blend-mode: difference;
+}
+.custom-cursor__cross-seg {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.92);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.custom-cursor__cross-seg--top,
+.custom-cursor__cross-seg--bottom {
+  width: 1px;
+  height: 8px;
+  left: -0.5px;
+}
+.custom-cursor__cross-seg--top {
+  top: -12px;
+}
+.custom-cursor__cross-seg--bottom {
+  top: 4px;
+}
+.custom-cursor__cross-seg--left,
+.custom-cursor__cross-seg--right {
+  width: 8px;
+  height: 1px;
+  top: -0.5px;
+}
+.custom-cursor__cross-seg--left {
+  left: -12px;
+}
+.custom-cursor__cross-seg--right {
+  left: 4px;
+}
+
+/* Lock state: contract + brighten to fluorescent green */
+.custom-cursor--lock .custom-cursor__cross-seg {
+  background: #00ff66;
+  box-shadow: 0 0 6px rgba(0, 255, 102, 0.7);
+}
+.custom-cursor--lock .custom-cursor__cross-seg--top,
+.custom-cursor--lock .custom-cursor__cross-seg--bottom {
+  height: 5px;
+}
+.custom-cursor--lock .custom-cursor__cross-seg--top {
+  top: -8px;
+}
+.custom-cursor--lock .custom-cursor__cross-seg--bottom {
+  top: 3px;
+}
+.custom-cursor--lock .custom-cursor__cross-seg--left,
+.custom-cursor--lock .custom-cursor__cross-seg--right {
+  width: 5px;
+}
+.custom-cursor--lock .custom-cursor__cross-seg--left {
+  left: -8px;
+}
+.custom-cursor--lock .custom-cursor__cross-seg--right {
+  left: 3px;
+}
+
+/* Text state: hide crosshair */
+.custom-cursor--text .custom-cursor__cross {
+  opacity: 0;
+}
+
+/* — Lock brackets [ ] — visible only in lock state — */
+.custom-cursor__bracket {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-color: #00ff66;
+  border-style: solid;
+  border-width: 0;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.custom-cursor--lock .custom-cursor__bracket {
+  opacity: 1;
+  transform: scale(1);
+}
+.custom-cursor__bracket--tl {
+  left: -14px;
+  top: -14px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+.custom-cursor__bracket--tr {
+  right: -14px;
+  top: -14px;
+  border-top-width: 1px;
+  border-right-width: 1px;
+}
+.custom-cursor__bracket--bl {
+  left: -14px;
+  bottom: -14px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+}
+.custom-cursor__bracket--br {
+  right: -14px;
+  bottom: -14px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+}
+
+/* — Text beam (|) — visible only in text state — */
+.custom-cursor__beam {
+  position: absolute;
+  width: 1px;
+  height: 16px;
+  left: -0.5px;
+  top: -8px;
+  background: rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  transform: scaleY(0.6);
+  transition: opacity 0.18s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.custom-cursor--text .custom-cursor__beam {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor__halo {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+@media (pointer: coarse) {
+  body.custom-cursor-active,
+  body.custom-cursor-active * {
+    cursor: auto !important;
+  }
+  .custom-cursor {
+    display: none;
+  }
+}
