@@ -29,6 +29,27 @@ const SATELLITE_ICONS: Record<string, LucideIcon> = {
   sentiment: MessagesSquare,
 };
 
+// Two-line format for the Detection hero card — abstract feature names
+// translated into "what it actually means for the buyer's workflow".
+const DETECTION_CAPABILITIES: { title: string; descriptor: string }[] = [
+  {
+    title: "版权 + 商标 + 外观专利 一次扫描",
+    descriptor: "三类 IP 在 12 秒内同时检测,不用切换工具或上传 3 次。",
+  },
+  {
+    title: "AI 不只告诉风险,还告诉如何规避",
+    descriptor: "每条预警附带可执行建议:换图、改文案、避开冲突类目。",
+  },
+  {
+    title: "选品时实时检测,不用切换工具",
+    descriptor: "Chrome 浏览器插件 — 在 Amazon / TikTok 浏览页直接出结果。",
+  },
+  {
+    title: "接进 ERP,新品自动批量扫描",
+    descriptor: "RESTful API + Webhook · 上架前自动闸门,人不用看。",
+  },
+];
+
 // ─── Section ─────────────────────────────────────────────────────────────────
 export function ProductSuiteSection() {
   const detection = products.find((p) => p.id === "detection");
@@ -141,18 +162,24 @@ function DetectionTextColumn({ product }: { product: Product }) {
         {product.description}
       </p>
 
-      <ul className="mt-7 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-        {product.capabilities.map((cap) => (
-          <li
-            key={cap}
-            className="flex items-start gap-2 text-sm font-medium text-ink"
-          >
+      {/* Two-line capability format (locally hardcoded for the home Detection
+          hero — keeps lib/products.ts data shape clean for /products page) */}
+      <ul className="mt-7 grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4">
+        {DETECTION_CAPABILITIES.map((cap) => (
+          <li key={cap.title} className="flex items-start gap-2.5">
             <Check
               size={14}
               strokeWidth={2.5}
-              className="mt-1 shrink-0 text-brand-bright"
+              className="mt-1.5 shrink-0 text-brand-bright"
             />
-            <span>{cap}</span>
+            <div>
+              <div className="text-[14px] font-medium leading-tight text-ink">
+                {cap.title}
+              </div>
+              <div className="mt-1 text-[12.5px] leading-[1.55] text-ink-muted">
+                {cap.descriptor}
+              </div>
+            </div>
           </li>
         ))}
       </ul>
