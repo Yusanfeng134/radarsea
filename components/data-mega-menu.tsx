@@ -1,12 +1,8 @@
 "use client";
 
 import * as React from "react";
-import {
-  AnimatePresence,
-  motion,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
+import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   Database,
@@ -17,8 +13,6 @@ import {
 import type { LucideIcon } from "lucide-react";
 
 import { useContactSales } from "@/components/contact-sales-modal";
-
-const SPRING_EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 // ─── Data pillar cells ──────────────────────────────────────────────────────
 type DataPillar = {
@@ -45,7 +39,7 @@ const PILLARS: DataPillar[] = [
     title: "覆盖地图",
     englishTitle: "Coverage Map",
     description: "156 国家可视化 · 全量监测 / 部分覆盖 / 仅信号采集 三级",
-    href: "/coverage",
+    href: "/data-sources#coverage",
   },
   {
     id: "trust",
@@ -76,20 +70,6 @@ export function DataMegaMenu({
   onMouseEnter,
   onMouseLeave,
 }: DataMegaMenuProps) {
-  // Tooltip — follows cursor over frozen pillar cells
-  const [tooltipPillarId, setTooltipPillarId] = React.useState<string | null>(
-    null,
-  );
-  const tooltipX = useMotionValue(-100);
-  const tooltipY = useMotionValue(-100);
-  const tipX = useSpring(tooltipX, { stiffness: 320, damping: 28, mass: 0.4 });
-  const tipY = useSpring(tooltipY, { stiffness: 320, damping: 28, mass: 0.4 });
-
-  const handlePillarMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    tooltipX.set(e.clientX + 14);
-    tooltipY.set(e.clientY + 14);
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}
@@ -98,13 +78,8 @@ export function DataMegaMenu({
       transition={{ duration: 0.16, ease: [0, 0, 0.2, 1] }}
       className="absolute inset-x-0 top-full"
       onMouseEnter={onMouseEnter}
-      onMouseLeave={() => {
-        onMouseLeave();
-        setTooltipPillarId(null);
-      }}
+      onMouseLeave={onMouseLeave}
     >
-      {/* Fully opaque to prevent page-content bleed-through; soft shadow
-          underneath keeps the floating-above-the-page feel. */}
       <div className="relative border-b border-line-strong/70 bg-bg shadow-[0_24px_48px_rgba(0,0,0,0.45)]">
         <span
           aria-hidden
@@ -117,9 +92,7 @@ export function DataMegaMenu({
               <PillarCell
                 key={pillar.id}
                 pillar={pillar}
-                onMouseEnter={() => setTooltipPillarId(pillar.id)}
-                onMouseLeave={() => setTooltipPillarId(null)}
-                onMouseMove={handlePillarMove}
+                onSelect={onSelect}
               />
             ))}
 
@@ -128,80 +101,53 @@ export function DataMegaMenu({
           </div>
         </div>
       </div>
-
-      {/* Floating tooltip */}
-      <AnimatePresence>
-        {tooltipPillarId && (
-          <motion.div
-            key="data-tooltip"
-            aria-hidden
-            initial={{ opacity: 0, scale: 0.9, y: 4 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 4 }}
-            transition={{ duration: 0.16, ease: SPRING_EASE }}
-            style={{
-              position: "fixed",
-              left: 0,
-              top: 0,
-              x: tipX,
-              y: tipY,
-              pointerEvents: "none",
-              zIndex: 60,
-            }}
-            className="rounded-md border border-line-strong bg-black/92 px-2.5 py-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.5)] backdrop-blur-md"
-          >
-            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink-muted">
-              <span className="text-ink-faint">[ </span>
-              Status:{" "}
-              <span className="text-brand-bright">即将上线</span>
-              <span className="text-ink-faint"> ]</span>
-            </span>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 }
 
-// ─── Pillar cell (frozen — target pages don't exist yet) ────────────────────
+// ─── Pillar cell — now LIVE (target pages built) ────────────────────────────
 function PillarCell({
   pillar,
-  onMouseEnter,
-  onMouseLeave,
-  onMouseMove,
+  onSelect,
 }: {
   pillar: DataPillar;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
-  onMouseMove: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onSelect: () => void;
 }) {
   const Icon = pillar.icon;
   return (
-    <div
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onMouseMove={onMouseMove}
-      className="relative flex h-full select-none flex-col p-6"
+    <Link
+      href={pillar.href}
+      onClick={onSelect}
+      className="group relative flex h-full flex-col p-6 transition-colors duration-200 hover:bg-white/[0.04]"
     >
-      <Icon size={22} strokeWidth={1.25} className="text-ink-faint/80" />
+      <Icon
+        size={22}
+        strokeWidth={1.25}
+        className="text-ink transition-[color,filter] duration-300 group-hover:text-brand-bright group-hover:[filter:drop-shadow(0_0_8px_rgba(0,229,255,0.5))]"
+      />
 
-      <div className="mt-7 flex items-baseline gap-2">
-        <span className="text-[15px] font-medium text-ink-faint">
+      <div className="mt-7 flex items-center gap-2">
+        <span className="text-[15px] font-semibold text-ink">
           {pillar.title}
         </span>
-        <span className="font-mono text-[8.5px] uppercase tracking-[0.22em] text-ink-faint/60">
-          {pillar.englishTitle}
-        </span>
+        <ArrowRight
+          size={12}
+          strokeWidth={2}
+          className="-translate-x-1 opacity-0 text-ink transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+        />
       </div>
+      <span className="mt-1 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-faint">
+        {pillar.englishTitle}
+      </span>
 
-      <p className="mt-2 line-clamp-3 text-[13px] leading-[1.55] text-ink-faint/65">
+      <p className="mt-3 line-clamp-3 text-[13px] leading-[1.55] text-ink-muted">
         {pillar.description}
       </p>
-    </div>
+    </Link>
   );
 }
 
-// ─── Column 5: Data Demo CTA (real conversion path) ─────────────────────────
+// ─── Column 5: Data Demo CTA ────────────────────────────────────────────────
 function DataDemoCell({ onSelect }: { onSelect: () => void }) {
   const { open: openContactSales } = useContactSales();
   return (
