@@ -14,10 +14,12 @@ export default function Home() {
       <RadarseaHero />
       <TrustBar />
       <ProductSuiteSection />
+      {/* DataFoundation moved up — for a data brand, "我们的数据底座" must
+          surface immediately after the product, not be buried at #7. */}
+      <DataFoundationSection />
       <ValuePropsSection />
       <SolutionsPreview />
       <InsightsPreview />
-      <DataFoundationSection />
       <AboutTeaser />
       <BottomCTA />
     </>

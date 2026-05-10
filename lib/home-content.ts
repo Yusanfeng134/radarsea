@@ -139,10 +139,10 @@ export type DataStat = {
 };
 
 export const dataStats: DataStat[] = [
-  { id: "ip", value: "1 亿+", label: "全球知识产权数据" },
-  { id: "platforms", value: "500+", label: "跨境平台数据源" },
-  { id: "realtime", value: "24/7", label: "实时雷达监测" },
-  { id: "companies", value: "1,000+", label: "服务的跨境企业" },
+  { id: "ip", value: "1 亿+", label: "USPTO · EUIPO · CNIPA 全量 IP 数据" },
+  { id: "platforms", value: "500+", label: "TikTok · Amazon · Shopee 等跨境平台" },
+  { id: "realtime", value: "240ms", label: "实时数据刷新延迟" },
+  { id: "companies", value: "1,000+", label: "出海品牌已接入" },
 ];
 
 // ---------- Trust bar brands ----------

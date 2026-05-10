@@ -54,6 +54,12 @@ export function DataFoundationSection() {
         <p className="text-center text-sm text-ink-faint">
           数据来源:USCO / USPTO / EUIPO 等政府公开数据库,以及授权第三方数据服务商。
         </p>
+        <p className="mt-3 text-center font-mono text-[10.5px] uppercase tracking-[0.22em] text-ink-faint">
+          <span className="inline-flex items-center gap-2">
+            <span className="h-1 w-1 rounded-full bg-brand-bright shadow-[0_0_5px_rgba(0,229,255,0.7)]" />
+            数据驻留 · 中国 / 新加坡 / 欧盟 可选 · 符合 GDPR · PIPL
+          </span>
+        </p>
       </div>
     </RevealSection>
   );
@@ -152,12 +158,12 @@ function StatValue({
       );
     case "realtime":
       return (
-        <RatioCountUp
-          left={24}
-          right={7}
+        <CountUp
+          to={240}
           duration={1.6}
           delay={delay}
           inView={inView}
+          format={formatMs}
         />
       );
     case "companies":
@@ -180,7 +186,7 @@ const formatYi = (n: number) =>
   n >= 0.995 ? "1 亿+" : `${n.toFixed(1)} 亿+`;
 const formatPlus = (n: number) => `${Math.round(n)}+`;
 const formatCommaPlus = (n: number) => `${Math.round(n).toLocaleString()}+`;
-const formatPlain = (n: number) => `${Math.round(n)}`;
+const formatMs = (n: number) => `${Math.round(n)}ms`;
 
 // ─── Count-up primitive ──────────────────────────────────────────────────────
 function CountUp({
@@ -227,37 +233,3 @@ function CountUp({
   return <>{display}</>;
 }
 
-// ─── Ratio count-up (used for "24/7") ────────────────────────────────────────
-function RatioCountUp({
-  left,
-  right,
-  duration,
-  delay,
-  inView,
-}: {
-  left: number;
-  right: number;
-  duration: number;
-  delay: number;
-  inView: boolean;
-}) {
-  return (
-    <span className="inline-flex items-baseline">
-      <CountUp
-        to={left}
-        duration={duration}
-        delay={delay}
-        inView={inView}
-        format={formatPlain}
-      />
-      <span className="mx-1 text-ink-faint">/</span>
-      <CountUp
-        to={right}
-        duration={duration * 0.75}
-        delay={delay + 0.2}
-        inView={inView}
-        format={formatPlain}
-      />
-    </span>
-  );
-}
