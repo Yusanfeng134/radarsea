@@ -1,5 +1,6 @@
 import { AboutTeaser } from "@/components/home/about-teaser";
 import { BottomCTA } from "@/components/home/bottom-cta";
+import { CustomerCases } from "@/components/home/customer-cases";
 import { DataFoundationSection } from "@/components/home/data-foundation-section";
 import { InsightsPreview } from "@/components/home/insights-preview";
 import { ProductSuiteSection } from "@/components/home/product-suite-section";
@@ -19,6 +20,10 @@ export default function Home() {
       <DataFoundationSection />
       <ValuePropsSection />
       <SolutionsPreview />
+      {/* Deep customer proof — comes after Solutions ("which role / what
+          fits") so that "what others actually achieved" lands at the
+          decision moment. */}
+      <CustomerCases />
       <InsightsPreview />
       <AboutTeaser />
       <BottomCTA />
