@@ -1,5 +1,6 @@
 "use client";
 
+import { useContactSales } from "@/components/contact-sales-modal";
 import { Container } from "@/components/ui/container";
 import {
   AnimatePresence,
@@ -50,7 +51,7 @@ function PageGridBackdrop() {
 // ─── Left column ─────────────────────────────────────────────────────────────
 function HeroCopy() {
   return (
-    <div className="relative max-w-md">
+    <div className="relative max-w-lg">
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
@@ -71,20 +72,23 @@ function HeroCopy() {
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.85, ease: SPRING_EASE, delay: 0.12 }}
-        className="text-display mt-6 text-[44px] font-semibold leading-[1.05] tracking-[-0.025em] text-ink md:text-[52px] lg:text-[60px]"
+        className="text-display mt-6 text-[40px] font-semibold leading-[1.08] tracking-[-0.025em] text-ink md:text-[48px] lg:text-[56px]"
       >
-        看透全球电商,
+        把跨境侵权下架,
         <br />
-        直达爆款 SKU。
+        从事后赔款,
+        <br />
+        变成事前预警。
       </motion.h1>
 
       <motion.p
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: SPRING_EASE, delay: 0.22 }}
-        className="mt-6 max-w-sm font-mono text-[13px] leading-[1.7] text-ink-muted md:text-sm"
+        className="mt-6 max-w-md font-mono text-[13px] leading-[1.75] text-ink-muted md:text-[14px]"
       >
-        持续追踪 156 国家市场信号、TikTok 流量拐点与竞品价格动态——把全球电商大盘下钻到一个 SKU 的颗粒度。
+        1,000+ 跨境品牌已用出海雷达,把侵权下架率降到{" "}
+        <span className="font-semibold text-brand-bright">4.6%</span>。
       </motion.p>
 
       <motion.div
@@ -97,11 +101,22 @@ function HeroCopy() {
         <GhostCTA />
       </motion.div>
 
+      {/* Trial assurance — directly under CTAs, conversion-psychology spot */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.7, ease: SPRING_EASE, delay: 0.42 }}
+        className="mt-5 inline-flex items-center gap-2 font-mono text-[10.5px] uppercase tracking-[0.2em] text-ink-faint"
+      >
+        <span className="h-1 w-1 rounded-full bg-accent-bright shadow-[0_0_5px_rgba(0,255,102,0.7)]" />
+        Detection 雷达 · 14 天免费 · 无需信用卡 · 30 秒注册
+      </motion.p>
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.7, delay: 0.5 }}
-        className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[10.5px] uppercase tracking-[0.22em] text-ink-faint"
+        transition={{ duration: 0.7, delay: 0.55 }}
+        className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[10.5px] uppercase tracking-[0.22em] text-ink-faint"
       >
         <span>Latency 240ms</span>
         <span aria-hidden className="hidden h-3 w-px bg-line md:block" />
@@ -113,14 +128,16 @@ function HeroCopy() {
   );
 }
 
-// White solid CTA, dark text — no gradient
+// Primary — white solid, links to live Detection product (zero-friction self-serve)
 function PrimaryCTA() {
   return (
     <a
-      href="#demo"
+      href="https://detection.overseasradar.com"
+      target="_blank"
+      rel="noopener noreferrer"
       className="group relative inline-flex h-11 items-center gap-1.5 rounded-full bg-white px-6 text-sm font-medium text-bg transition-all duration-200 hover:bg-white/90 hover:shadow-[0_0_24px_rgba(255,255,255,0.18)]"
     >
-      <span>申请 Demo</span>
+      <span>立即免费试用</span>
       <ArrowRight
         size={14}
         className="transition-transform duration-300 group-hover:translate-x-0.5"
@@ -129,18 +146,21 @@ function PrimaryCTA() {
   );
 }
 
+// Secondary — opens contact-sales modal (high-intent enterprise path)
 function GhostCTA() {
+  const { open: openContactSales } = useContactSales();
   return (
-    <a
-      href="#contact"
+    <button
+      type="button"
+      onClick={() => openContactSales({ source: "hero" })}
       className="group inline-flex h-11 items-center gap-1.5 rounded-full border border-line-strong bg-transparent px-6 text-sm font-medium text-ink transition-all duration-200 hover:border-brand-bright/60 hover:text-brand-bright"
     >
-      <span>立即体验</span>
+      <span>联系销售</span>
       <ArrowRight
         size={14}
         className="h-3.5 w-3.5 -translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
       />
-    </a>
+    </button>
   );
 }
 
