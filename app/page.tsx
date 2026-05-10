@@ -3,6 +3,7 @@ import { BottomCTA } from "@/components/home/bottom-cta";
 import { CustomerCases } from "@/components/home/customer-cases";
 import { DataFoundationSection } from "@/components/home/data-foundation-section";
 import { InsightsPreview } from "@/components/home/insights-preview";
+import { PricingPreview } from "@/components/home/pricing-preview";
 import { ProductSuiteSection } from "@/components/home/product-suite-section";
 import { RadarseaHero } from "@/components/home/radarsea-hero";
 import { SolutionsPreview } from "@/components/home/solutions-preview";
@@ -24,6 +25,10 @@ export default function Home() {
           fits") so that "what others actually achieved" lands at the
           decision moment. */}
       <CustomerCases />
+      {/* Pricing right after social proof — when buyers are most ready
+          to qualify themselves. Self-serve trial path bottoms out the
+          funnel for SMB; Enterprise tier funnels into contact-sales. */}
+      <PricingPreview />
       <InsightsPreview />
       <AboutTeaser />
       <BottomCTA />
