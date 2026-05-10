@@ -11,7 +11,7 @@ export const site = {
   },
 };
 
-export type MegaId = "products" | "solutions";
+export type MegaId = "products" | "data" | "solutions";
 
 export type NavItem = {
   label: string;
@@ -22,6 +22,7 @@ export type NavItem = {
 
 export const primaryNav: NavItem[] = [
   { label: "产品", href: "/products", megaId: "products" },
+  { label: "数据", href: "/data-sources", megaId: "data" },
   { label: "解决方案", href: "/solutions", megaId: "solutions" },
   { label: "行业洞察", href: "/insights" },
   { label: "关于", href: "/about" },

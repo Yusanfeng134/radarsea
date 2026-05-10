@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 
+import { ContactSalesProvider } from "@/components/contact-sales-modal";
 import { CustomCursor } from "@/components/custom-cursor";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -57,10 +58,12 @@ export default function RootLayout({
         >
           跳到主要内容
         </a>
-        <CustomCursor />
-        <SiteHeader />
-        <main id="main">{children}</main>
-        <SiteFooter />
+        <ContactSalesProvider>
+          <CustomCursor />
+          <SiteHeader />
+          <main id="main">{children}</main>
+          <SiteFooter />
+        </ContactSalesProvider>
       </body>
     </html>
   );

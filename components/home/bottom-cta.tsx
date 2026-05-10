@@ -2,11 +2,13 @@
 
 import { ArrowRight } from "lucide-react";
 
+import { useContactSales } from "@/components/contact-sales-modal";
 import { RevealSection } from "@/components/home/reveal-section";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function BottomCTA() {
+  const { open: openContactSales } = useContactSales();
   return (
     <RevealSection className="border-t border-line py-32 md:py-40 lg:py-48">
       <div className="mx-auto max-w-site px-5 text-center md:px-8">
@@ -21,7 +23,7 @@ export function BottomCTA() {
         <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <button
             type="button"
-            onClick={() => console.log("contact-sales")}
+            onClick={() => openContactSales({ source: "bottom-cta" })}
             className={cn(
               buttonVariants({ variant: "primary", size: "lg" }),
               "group",

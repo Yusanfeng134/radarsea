@@ -12,6 +12,8 @@ import {
   X,
 } from "lucide-react";
 
+import { useContactSales } from "@/components/contact-sales-modal";
+import { DataMegaMenu } from "@/components/data-mega-menu";
 import { MegaMenu } from "@/components/mega-menu";
 import { SolutionsMegaMenu } from "@/components/solutions-mega-menu";
 import { Button } from "@/components/ui/button";
@@ -27,6 +29,7 @@ export function SiteHeader() {
   const [mobileSubOpen, setMobileSubOpen] = React.useState<string | null>(null);
   const [lang, setLang] = React.useState<"中" | "EN">("中");
   const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { open: openContactSales } = useContactSales();
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -170,7 +173,7 @@ export function SiteHeader() {
             <Button
               variant="primary"
               size="sm"
-              onClick={() => console.log("contact-sales")}
+              onClick={() => openContactSales({ source: "header" })}
             >
               联系销售
             </Button>
@@ -196,6 +199,14 @@ export function SiteHeader() {
             key="products"
             onSelect={() => setOpenMegaId(null)}
             onMouseEnter={() => openMega("products")}
+            onMouseLeave={closeMega}
+          />
+        )}
+        {openMegaId === "data" && (
+          <DataMegaMenu
+            key="data"
+            onSelect={() => setOpenMegaId(null)}
+            onMouseEnter={() => openMega("data")}
             onMouseLeave={closeMega}
           />
         )}
@@ -320,8 +331,8 @@ export function SiteHeader() {
                   variant="primary"
                   size="lg"
                   onClick={() => {
-                    console.log("contact-sales");
                     setMobileOpen(false);
+                    openContactSales({ source: "header-mobile" });
                   }}
                 >
                   联系销售

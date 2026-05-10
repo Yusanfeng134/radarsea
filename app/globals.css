@@ -166,6 +166,65 @@
   }
 }
 
+/* ─── CTA beam — dark button with rotating brand-color border light ──────── */
+@property --cta-beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.cta-beam {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid rgba(0, 229, 255, 0.22);
+}
+.cta-beam::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--cta-beam-angle),
+    transparent 0deg,
+    transparent 270deg,
+    rgba(0, 229, 255, 0.7) 332deg,
+    #ffffff 354deg,
+    rgba(0, 229, 255, 0.95) 358deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.cta-beam:hover::before,
+.cta-beam:focus-visible::before {
+  opacity: 1;
+  animation: cta-beam-rotate 1.4s linear infinite;
+}
+
+@keyframes cta-beam-rotate {
+  from {
+    --cta-beam-angle: 0deg;
+  }
+  to {
+    --cta-beam-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-beam:hover::before,
+  .cta-beam:focus-visible::before {
+    animation: none;
+  }
+}
+
 /* ─── Trust bar infinite marquee ──────────────────────────────────────────── */
 .trust-marquee {
   -webkit-mask-image: linear-gradient(
