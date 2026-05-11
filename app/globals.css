@@ -12,9 +12,9 @@
     --ink-faint: rgba(255, 255, 255, 0.4);
     --line: rgba(255, 255, 255, 0.045);
     --line-strong: rgba(255, 255, 255, 0.16);
-    --brand: #0ea5e9;
+    --brand: #d946ef; /* fuchsia-500 — V1 primary CTA */
     --brand-bright: #00e5ff; /* electric cyan — lock state, hover, sweep */
-    --brand-deep: #0369a1;
+    --brand-deep: #a21caf;
     --accent: #10b981;
     --accent-bright: #00ff66; /* fluorescent green — anomaly, Live, lock */
     --highlight: #7dd3fc;
