@@ -40,13 +40,14 @@ const config: Config = {
           DEFAULT: "rgba(0, 0, 0, 0.4)",
           deep: "rgba(0, 0, 0, 0.5)",
         },
-        // Brand: electric cyan — fluorescent data accent, used sparingly
+        // Brand: Sansara-era magenta restored for the solid CTA button —
+        // electric cyan still used for accents/highlights via brand-bright.
         brand: {
-          DEFAULT: "#0EA5E9", // sky-500 — primary CTA / brand color (kept for solid bg cases)
+          DEFAULT: "#D946EF", // fuchsia-500 — primary CTA / brand color
           bright: "#00E5FF", // electric cyan — sweep arc, hover, lock state
-          deep: "#0369A1",
-          hover: "#0284C7",
-          subtle: "rgba(0, 229, 255, 0.08)",
+          deep: "#A21CAF",
+          hover: "#C026D3",
+          subtle: "rgba(217, 70, 239, 0.08)",
         },
         // Fluorescent green — only for "data anomaly", "lock", "Live" labels
         accent: {
