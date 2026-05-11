@@ -113,12 +113,12 @@ function HeroCopy() {
   );
 }
 
-// White solid CTA, dark text — no gradient
+// Magenta solid CTA, white text — V1 brand-primary
 function PrimaryCTA() {
   return (
     <a
       href="#demo"
-      className="group relative inline-flex h-11 items-center gap-1.5 rounded-full bg-white px-6 text-sm font-medium text-bg transition-all duration-200 hover:bg-white/90 hover:shadow-[0_0_24px_rgba(255,255,255,0.18)]"
+      className="group relative inline-flex h-11 items-center gap-1.5 rounded-full bg-brand px-6 text-sm font-medium text-white transition-all duration-200 hover:bg-brand-hover hover:shadow-[0_0_24px_rgba(217,70,239,0.35)]"
     >
       <span>申请 Demo</span>
       <ArrowRight
